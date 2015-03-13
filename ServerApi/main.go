@@ -5,12 +5,10 @@ import (
 	_ "github.com/oikomi/PrivateCloudStorageServer/ServerApi/routers"
 
 	"github.com/astaxie/beego"
+	"github.com/oikomi/PrivateCloudStorageServer/ServerApi/controllers"
 )
 
 func main() {
-	if beego.RunMode == "dev" {
-		beego.DirectoryIndex = true
-		beego.StaticDir["/swagger"] = "swagger"
-	}
+	beego.Router("api/v1/storage", &controllers.StorageController{})
 	beego.Run()
 }
