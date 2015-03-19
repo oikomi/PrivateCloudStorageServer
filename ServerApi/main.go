@@ -10,6 +10,6 @@ import (
 
 func main() {
 	beego.Router("api/v1/storage", &controllers.StorageController{})
-	beego.SetStaticPath("/open", "/mh/data")
+	beego.SetStaticPath("/open", "/home/data")
 	beego.Run()
 }
