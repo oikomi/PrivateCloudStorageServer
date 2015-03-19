@@ -457,7 +457,7 @@ func (this *FileOperation) getDiskUsage() (*DiskUsageData, error) {
 func (this *FileOperation) isFileExist(path string) (*CommResData, error) {
 	crd := NewCommResData()
 	crd.Status = 1
-	_, err := os.Stat(path)
+	_, err := os.Stat(config.BaseDir + path)
 	if err == nil || os.IsExist(err) {
 		crd.Status = 0
 	}
