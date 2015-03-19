@@ -1,5 +1,5 @@
 {
-	"BaseDir"     : "/mh/data",
+	"BaseDir"     : "/home/data",
 	"UserInfoDir" : "/etc/info.user",
 	"Salt"        : "aDio#$!n999"
 }
