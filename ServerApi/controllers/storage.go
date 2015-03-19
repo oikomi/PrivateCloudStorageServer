@@ -152,6 +152,22 @@ func (this *StorageController) Get() {
 		}
 		this.Data["json"] = res
 		this.ServeJson()
+		
+	case conf.ACTION_IS_FILE_EXIST:
+		path := this.GetString(conf.KEY_PATH)
+		if path == "" {
+			beego.Error("[para is null] | path ")
+			this.Abort("400")
+			return
+		}
+		res, err := fo.isFileExist(path)
+		if err != nil {
+			beego.Error(err)
+			this.Abort("400")
+			return
+		}
+		this.Data["json"] = res
+		this.ServeJson()
 	default:
 		
 	}
@@ -438,3 +454,13 @@ func (this *FileOperation) getDiskUsage() (*DiskUsageData, error) {
 	return &dud, nil
 }
 
+func (this *FileOperation) isFileExist(path string) (*CommResData, error) {
+	crd := NewCommResData()
+	crd.Status = 1
+	_, err := os.Stat(path)
+	if err == nil || os.IsExist(err) {
+		crd.Status = 0
+	}
+	
+	return &crd, nil
+}

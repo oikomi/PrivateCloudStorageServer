@@ -32,4 +32,5 @@ const (
 	ACTION_RENAME = "rename"
 	ACTION_UPLOAD = "upload"
 	ACTION_GET_STORAGE_INFO = "get_storage_info"
+	ACTION_IS_FILE_EXIST = "is_file_exist"
 )
