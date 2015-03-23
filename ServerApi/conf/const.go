@@ -22,6 +22,8 @@ const (
 	KEY_DIR = "dir"
 	KEY_OLD_DIR = "old_dir"
 	KEY_NEW_DIR = "new_dir"
+	KEY_FROM_PATH = "from_path"
+	KEY_TO_PATH = "to_path"
 )
 
 const (
@@ -30,6 +32,7 @@ const (
 	ACTION_MKDIR = "mkdir"
 	ACTION_RMFILE = "rm_file"
 	ACTION_RENAME = "rename"
+	ACTION_MOVEFILE = "move_file"
 	ACTION_UPLOAD = "upload"
 	ACTION_GET_STORAGE_INFO = "get_storage_info"
 	ACTION_IS_FILE_EXIST = "is_file_exist"

@@ -143,6 +143,25 @@ func (this *StorageController) Get() {
 		}
 		this.Data["json"] = res
 		this.ServeJson()
+
+	case conf.ACTION_MOVEFILE:
+		fromPath := this.GetString(conf.KEY_FROM_PATH)
+		toPath := this.GetString(conf.KEY_TO_PATH)
+		if fromPath == ""  || toPath == "" {
+			beego.Error("[para is null] | fromPath | toPath ")
+			this.Abort("400")
+			return
+		}
+		
+		res, err := fo.moveFile(fromPath, toPath)
+		if err != nil {
+			beego.Error(err)
+			this.Abort("400")
+			return
+		}
+		this.Data["json"] = res
+		this.ServeJson()
+
 	case conf.ACTION_GET_STORAGE_INFO:
 		res, err := fo.getDiskUsage()
 		if err != nil {
@@ -432,6 +451,25 @@ func (this *FileOperation) rename(oldDir, newDir string) (*CommResData, error) {
 	//}
 	
 	//beego.Info(string(data))
+
+	return &crd, nil
+}
+
+
+func (this *FileOperation) moveFile(from, to string) (*CommResData, error) {
+	fromPath := config.BaseDir + from
+	toPath := config.BaseDir + "/" + to
+
+	crd := NewCommResData()
+	crd.Status = 1
+	err := syscall.MoveFile(fromPath, toPath)
+	if err != nil {
+		crd.Status = 1
+		beego.Error(err)
+		return nil, err
+	}
+	
+	crd.Status = 0
 
 	return &crd, nil
 }
