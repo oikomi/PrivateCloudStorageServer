@@ -17,6 +17,7 @@ package controllers
 
 import (
 	"os"
+	"io"
 	"syscall"
 	"net/url"
 	"io/ioutil"
@@ -457,8 +458,8 @@ func (this *FileOperation) rename(oldDir, newDir string) (*CommResData, error) {
 
 func (this *FileOperation)copyFile(src, dst string)(w int64,err error){
 	srcFile,err := os.Open(src)
-	if err!=nil{
-		fmt.Println(err.Error())
+	if err != nil{
+		beego.Error(err)
 		return
 	}
 	defer srcFile.Close()
@@ -466,13 +467,13 @@ func (this *FileOperation)copyFile(src, dst string)(w int64,err error){
 	dstFile,err := os.Create(dst)
 
 	if err!=nil{
-		fmt.Println(err.Error())
+		beego.Error(err)
 		return
 	}
 	
 	defer dstFile.Close()
 
-	return io.Copy(dstFile,srcFile)
+	return io.Copy(dstFile, srcFile)
 }
 
 func (this *FileOperation) moveFile(from, to string) (*CommResData, error) {
