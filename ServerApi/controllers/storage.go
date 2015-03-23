@@ -455,20 +455,45 @@ func (this *FileOperation) rename(oldDir, newDir string) (*CommResData, error) {
 	return &crd, nil
 }
 
+func (this *FileOperation)copyFile(src, dst string)(w int64,err error){
+	srcFile,err := os.Open(src)
+	if err!=nil{
+		fmt.Println(err.Error())
+		return
+	}
+	defer srcFile.Close()
+
+	dstFile,err := os.Create(dst)
+
+	if err!=nil{
+		fmt.Println(err.Error())
+		return
+	}
+	
+	defer dstFile.Close()
+
+	return io.Copy(dstFile,srcFile)
+}
 
 func (this *FileOperation) moveFile(from, to string) (*CommResData, error) {
-	fromPath := config.BaseDir + from
+	fromPath := config.BaseDir + "/" + from
 	toPath := config.BaseDir + "/" + to
 
 	crd := NewCommResData()
 	crd.Status = 1
-	err := syscall.MoveFile(fromPath, toPath)
+	_, err := this.copyFile(fromPath, toPath)
 	if err != nil {
 		crd.Status = 1
 		beego.Error(err)
 		return nil, err
 	}
 	
+	err = os.Remove(fromPath)
+	if err != nil {
+		crd.Status = 1
+		beego.Error(err)
+		return nil, err
+	}
 	crd.Status = 0
 
 	return &crd, nil
