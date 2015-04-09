@@ -1,0 +1,1 @@
+define("util/hash",[],function(){function a(){var a={type:"",path:[]},b=window.location.hash;0===b.indexOf("#")&&(b=b.substr(1)),/\/$/.test(b)&&(b=b.substr(0,b.length-1));var c=b.indexOf("/");return-1==c?a.type=b:(a.type=b.substring(0,c),b.substr(c+1)&&(a.path=b.substr(c+1).split("/"))),a}return{get:function(){return a()},set:function(a){window.location.hash=a}}});
