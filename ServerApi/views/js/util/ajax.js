@@ -1,1 +1,0 @@
-define("util/ajax",["jquery"],function(a){function b(a){var b=c.extend(!0,{type:"GET",dataType:"json",success:function(){},error:function(){}},a);c.ajax(b)}var c=a("jquery");return b});

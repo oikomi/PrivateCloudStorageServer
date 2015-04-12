@@ -1,1 +1,0 @@
-define("api",[],function(){var a="./api/v1/storage",b="./open",c={login:a+"?action=login",getFileList:a+"?action=get_server_file_list",mkdir:a+"?action=mkdir",rmfile:a+"?action=rm_file",rename:a+"?action=rename",upload:a+"?action=upload",download:b,moveFile:a+"?action=move_file"};return c});
