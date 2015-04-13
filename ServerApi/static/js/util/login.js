@@ -1,1 +1,45 @@
-define("util/login",["jquery","util/user","util/cookie","util/ajax","api","util/hash"],function(a){var b=a("jquery"),c=a("util/user"),d=a("util/hash"),e=function(){var a=b("#login_template").html(),e=b(".wrapper"),f=b(".login-wrapper");this.show=function(){e.hide();var g=b(a);f.html(g);var h=this;g.find(".jsLogin").on("click",function(){var a=g.find("input[type=text]").val(),e=g.find("input[type=password]").val(),f=b(this);f.parent().addClass("loading"),c.login(a,e,function(){h.remove(),d.set("work")},function(){f.parent().removeClass("loading"),g.find(".error-msg").html("密码错误").show()})}),g.find("input[type=password]").on("focus",function(){g.find(".error-msg").hide()})},this.remove=function(){f.html("")}};return new e});
+/* 
+* @Author: WhiteWang
+* @Date:   2015-04-01 17:43:13
+* @Last Modified by:   weifengwang
+* @Last Modified time: 2015-04-01 19:15:13
+*/
+
+define(function (require, exports, module) {
+    var $ = require('jquery');
+    var user = require('util/user');
+    var hash = require('util/hash');
+
+    var Login = function(){
+        var template = $('#login_template').html();
+        var $wrapper = $('.wrapper');
+        var $loginWrapper = $('.login-wrapper');
+        this.show = function(){
+            $wrapper.hide();
+            var $login = $(template);
+            $loginWrapper.html($login);
+            var that = this;
+            $login.find('.jsLogin').on('click', function(){
+                var username = $login.find('input[type=text]').val();
+                var password = $login.find('input[type=password]').val();
+                var $btn = $(this);
+                $btn.parent().addClass('loading');
+                user.login(username, password, function(){
+                    that.remove();
+                    hash.set('work');
+                }, function(){
+                    $btn.parent().removeClass('loading');
+                    $login.find('.error-msg').html('密码错误').show();
+                })
+            });
+            $login.find('input[type=password]').on('focus', function(){
+                $login.find('.error-msg').hide();
+            })
+        }
+        this.remove = function(){
+            $loginWrapper.html('');
+        }
+    }
+
+    return new Login();
+});

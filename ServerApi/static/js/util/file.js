@@ -1,1 +1,110 @@
-define("util/file",["jquery","underscore","util/adaptor","util/hash","api"],function(a){function b(a){var b="unknow-icon";if("dir"==a.type)b="folder-icon";else{var c=/\.[^\.]+$/.exec(a.name);switch(c&&(c=c[0]),c){case".pdf":b="pdf-icon";break;case".doc":b="word-icon";break;case".xls":b="xls-icon";break;case".zip":b="zip-icon";break;default:b="unknow-icon"}}return b}function c(a){var c=f(k({fileIcon:b(a),fileName:a.name}));return c.on("mouseenter",function(){f(this).addClass("hover")}).on("mouseleave",function(){f(this).removeClass("hover")}).on("click",function(){f(this).siblings().removeClass("click"),f(this).addClass("click"),h.set(a,f(this))}).on("dblclick",function(){"dir"==a.type?i.set("work"+a.path):window.open(j.download+a.path)}),c}function d(a){for(;"/"==a.path.substr(0,1)&&"/"==a.path.substr(1,1);)a.path=a.path.substr(1);return a}function e(){this.init=function(a){l.children("ul").html(""),a.sort(function(a,b){return a.name&&b.name&&a.name<b.name?-1:1});for(var b=[],c=[],d=0;d<a.length;d++){var e=a[d];e.status||("dir"==e.type?b.push(e):c.push(e))}a=b.concat(c);for(var d=0;d<a.length;d++){var e=a[d];e.status||this.add(e)}},this.add=function(a){l.children("ul").append(c(d(a)))},this.prepend=function(a){l.children("ul").prepend(c(d(a)))}}var f=a("jquery"),g=a("underscore"),h=a("util/adaptor"),i=a("util/hash"),j=a("api"),k=g.template(f("#file_template").html()),l=f(".file-con");return new e});
+/* 
+* @Author: White
+* @Email: weifengwang@pptv.com
+* @Date:   2015-04-01 19:48:55
+* @Last Modified time: 2015-04-12 17:11:51
+*/
+
+define(function(require, exports, module) {
+    var $ = require('jquery');
+    var _ = require('underscore');
+    var adaptor = require('util/adaptor');
+    var hash = require('util/hash');
+    var api = require('api');
+
+    var template = _.template($('#file_template').html());
+    var $space = $('.file-con');
+    function getIcon(obj){
+        var icon = 'unknow-icon';
+        if(obj.type == 'dir'){
+            icon =  'folder-icon';
+        } else {
+            var type = /\.[^\.]+$/.exec(obj.name);
+            if(type){
+                type = type[0];
+            }
+            switch(type){
+                case '.pdf':
+                    icon = 'pdf-icon';break;
+                case '.doc':
+                    icon = 'word-icon';break;
+                case '.xls':
+                    icon = 'xls-icon';break;
+                case '.zip':
+                    icon = 'zip-icon';break;
+                default:
+                    icon = 'unknow-icon';break;
+            }
+        }
+        return icon;
+    }
+    function getListDom(obj){
+        var $li = $(template({
+            fileIcon: getIcon(obj),
+            fileName: obj.name
+        }));
+        $li.on('mouseenter', function(){
+            $(this).addClass('hover');
+        }).on('mouseleave', function(){
+            $(this).removeClass('hover');
+        }).on('click', function(){
+            $(this).siblings().removeClass('click');
+            $(this).addClass('click');
+            adaptor.set(obj, $(this));
+        }).on('dblclick', function(){
+            if(obj.type == 'dir'){
+                hash.set('work'+obj.path);
+            } else {
+                window.open(api.download+obj.path);
+            }
+        });
+        return $li;
+    }
+    function rePath(obj){
+        while(obj.path.substr(0,1)=='/' && obj.path.substr(1,1)=='/'){
+            obj.path = obj.path.substr(1);
+        }
+        return obj;
+    }
+    function File(){
+        this.init = function(data){
+            $space.children('ul').html('');
+            data.sort(function(a, b){
+                if(a.name && b.name && a.name<b.name){
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
+            var dArr = [];
+            var fArr = [];
+            for(var i=0; i<data.length; i++){
+                var obj = data[i];
+                if(!!obj.status){
+                    continue;
+                }
+                if(obj.type == 'dir'){
+                    dArr.push(obj);
+                } else {
+                    fArr.push(obj);
+                }
+            }
+            data = dArr.concat(fArr);
+            for(var i=0; i<data.length; i++){
+                var obj = data[i];
+                if(!!obj.status){
+                    continue;
+                }
+                this.add(obj);
+            }
+        }
+        this.add = function(obj){
+            $space.children('ul').append(getListDom(rePath(obj)));
+        }
+        this.prepend = function(obj){
+            $space.children('ul').prepend(getListDom(rePath(obj)));
+        }
+    }
+
+    return new File();
+});
