@@ -2,7 +2,7 @@
 * @Author: White
 * @Email: weifengwang@pptv.com
 * @Date:   2015-04-02 00:49:32
-* @Last Modified time: 2015-04-12 17:12:07
+* @Last Modified time: 2015-04-13 19:03:22
 */
 
 define(function(require, exports, module) {
@@ -15,12 +15,12 @@ define(function(require, exports, module) {
     var file = require('util/file');
     var _ = require('underscore');
 
-    var tp_pop = '<div class="popup"><div class="pop-input"><input type="text" placeholder="请输入名称" /><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><img class="loading-img" src="static/images/loading.gif" /></div><a href="javascript:;" class="close">x</a></div></div>';
-    var tp_movepop='<div class="popup"><div class="popwrap"><p>复制到：</p><div class="move-wrap"><%= listdata %></div><a href="javascript:;" class="close">x</a><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><img class="loading-img" src="static/images/loading.gif" /></div></div></div>';
+    var tp_pop = '<div class="popup"><div class="pop-input"><input type="text" placeholder="请输入名称" /><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><a href="javascript:;" class="btnType1 jsCancel load-hidden" >取消</a><img class="loading-img" src="static/images/loading.gif" /></div><a href="javascript:;" class="close"></a></div></div>';
+    var tp_movepop='<div class="popup"><div class="popwrap"><p>复制到：</p><div class="move-wrap"><%= listdata %></div><a href="javascript:;" class="close"></a><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><img class="loading-img" src="static/images/loading.gif" /></div></div></div>';
     var tp_movelist = '<ul><% _.each(data, function(item){ if(item.type==\'dir\'){ while(item.path.substr(0,1)==\'/\' && item.path.substr(1,1)==\'/\'){item.path = item.path.substr(1)} %>'+
                                     '<li><div class="filelist" data-path="<%= item.path %>"><i class="icon-arrow"></i><span><%= item.name %></span></div></li>'+
                                 '<% }}) %></ul>';
-var tp_delete = '<div class="popup"><div class="pop-input" style="width:200px; margin:-70px 0 0 -100px;"><p>确定要删除 <%= filename %> 吗？</p><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden" style="margin:0 10px;">确定</a><a href="javascript:;" class="btnType1 jsCancel load-hidden" style="margin:0 10px;">取消</a><img class="loading-img" src="static/images/loading.gif" /></div><a href="javascript:;" class="close">x</a></div></div>';
+    var tp_delete = '<div class="popup"><div class="pop-input deletepop"><p>确定要删除 <%= filename %> 吗？</p><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><a href="javascript:;" class="btnType1 jsCancel load-hidden" >取消</a><img class="loading-img" src="static/images/loading.gif" /></div><a href="javascript:;" class="close"></a></div></div>';
     var $jsCopy = $('.jsCopy'),
         $jsMove = $('.jsMove'),
         $jsDelete = $('.jsDelete'),
@@ -120,6 +120,7 @@ var tp_delete = '<div class="popup"><div class="pop-input" style="width:200px; m
         }
         var fileObj = adaptor.get();
         var $pop = $(tp_pop);
+        $pop.find('.pop-input').addClass('renamepop');
         $('body').append($pop);
         var $input = $pop.find('input[type=text]');
         $input.val(fileObj.obj.name);
@@ -170,6 +171,7 @@ var tp_delete = '<div class="popup"><div class="pop-input" style="width:200px; m
             return;
         }
         var $pop = $(tp_pop);
+        $pop.find('.pop-input').addClass('newpop');
         $('body').append($pop);
         $pop.find('input[type=text]').focus();
         $pop.find('.jsSubmit').on('click', function(){
@@ -216,9 +218,6 @@ var tp_delete = '<div class="popup"><div class="pop-input" style="width:200px; m
         var fileObj = adaptor.get();
         var $pop = $(_.template(tp_delete)({filename:fileObj.obj.name}));
         $('body').append($pop);
-        $pop.find('.jsCancel').on('click', function(){
-            $pop.remove();
-        })
         $pop.find('.jsSubmit').on('click', function(){
             $(this).parent().addClass('loading');
             ajax({

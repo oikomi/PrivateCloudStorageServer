@@ -77,7 +77,12 @@ html,body{background: #eee; height: 100%; overflow: hidden; font-family: Arial,s
 
 .popup{position:absolute; top:0; left:0; width:100%; height:100%;}
 .popup .pop-input{position:absolute; top:50%; left:50%; z-index: 10; background:#eee; border:1px solid #c0c0c0; box-shadow: 0 5px 5px #c9c9c9; text-align: center; padding:20px;}
-.popup .close{position: absolute; top:-18px; right:-18px; font-size:26px; display:block; padding:5px; width:26px; height:26px; line-height: 26px; text-align: center; color:black; text-decoration: none;}
+.popup .close{position: absolute; top:-11px; right:-11px; font-size:26px; display:block; width:22px; height:22px; line-height: 26px; text-align: center; color:black; text-decoration: none; background:url(icons.png) -311px 0px;}
+.popup .deletepop{width:200px; margin:-70px 0 0 -100px;}
+.popup .renamepop{width:200px; margin:-70px 0 0 -100px;}
+.popup .newpop{width:200px; margin:-70px 0 0 -100px;}
+.popup .pop-input .btnType1{margin:0 10px;}
+.popup .pop-input input{margin:0 0 16px 0;}
 
 .popwrap{width:450px; height:300px; display:block; background:#eee; position: absolute; top:50%; left:50%; margin:-150px 0 0 -225px; border:1px solid #c0c0c0; box-shadow: 0 5px 5px #c9c9c9; z-index: 10; text-align: center;}
 .popwrap p{padding:10px 0 10px 10px; border-bottom:1px solid #e0e0e0; margin:0; text-align: left;}

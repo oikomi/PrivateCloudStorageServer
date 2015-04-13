@@ -2,7 +2,7 @@
  * @Author: White
  * @Email: weifengwang@pptv.com
  * @Date:   2015-03-28 13:58:02
- * @Last Modified time: 2015-04-12 12:14:14
+ * @Last Modified time: 2015-04-13 18:52:52
  */
 define(function (require, exports, module) {
     var $ = require('jquery');
@@ -52,7 +52,7 @@ define(function (require, exports, module) {
     $('.upload a').on('click', function(ev){
         upload.init();
     })
-    $('body').on('click', '.popup .close', function(){
+    $('body').on('click', '.popup .close, .popup .jsCancel', function(){
         $(this).parents('.popup').remove();
     })
     $('.file-con').height(getfileheight());
