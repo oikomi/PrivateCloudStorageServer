@@ -2,7 +2,7 @@
  * @Author: White
  * @Email: weifengwang@pptv.com
  * @Date:   2015-03-29 20:12:03
- * @Last Modified time: 2015-04-13 19:48:35
+ * @Last Modified time: 2015-04-13 20:59:33
  */
 define(function (require, exports, module) {
     var url1 = './api/v1/storage';

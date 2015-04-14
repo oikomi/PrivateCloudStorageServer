@@ -2,7 +2,7 @@
 * @Author: White
 * @Email: weifengwang@pptv.com
 * @Date:   2015-04-02 00:49:32
-* @Last Modified time: 2015-04-13 19:03:22
+* @Last Modified time: 2015-04-13 21:04:17
 */
 
 define(function(require, exports, module) {
@@ -16,7 +16,7 @@ define(function(require, exports, module) {
     var _ = require('underscore');
 
     var tp_pop = '<div class="popup"><div class="pop-input"><input type="text" placeholder="请输入名称" /><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><a href="javascript:;" class="btnType1 jsCancel load-hidden" >取消</a><img class="loading-img" src="static/images/loading.gif" /></div><a href="javascript:;" class="close"></a></div></div>';
-    var tp_movepop='<div class="popup"><div class="popwrap"><p>复制到：</p><div class="move-wrap"><%= listdata %></div><a href="javascript:;" class="close"></a><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><img class="loading-img" src="static/images/loading.gif" /></div></div></div>';
+    var tp_movepop='<div class="popup"><div class="popwrap"><p>移动到：</p><div class="move-wrap"><%= listdata %></div><a href="javascript:;" class="close"></a><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><img class="loading-img" src="static/images/loading.gif" /></div></div></div>';
     var tp_movelist = '<ul><% _.each(data, function(item){ if(item.type==\'dir\'){ while(item.path.substr(0,1)==\'/\' && item.path.substr(1,1)==\'/\'){item.path = item.path.substr(1)} %>'+
                                     '<li><div class="filelist" data-path="<%= item.path %>"><i class="icon-arrow"></i><span><%= item.name %></span></div></li>'+
                                 '<% }}) %></ul>';
@@ -29,7 +29,7 @@ define(function(require, exports, module) {
         $jsNew = $('.jsNew');
         $jsRefresh = $('.jsRefresh');
     var $filecon = $('.file-con');
-    $jsCopy.on('click', function(){
+    $jsMove.on('click', function(){
         if($(this).hasClass('disable')){
             return;
         }
@@ -51,7 +51,7 @@ define(function(require, exports, module) {
                 success: function(data){
                     $pop.remove();
                     if(data.status==0){
-
+                        fileobj.$el.remove();
                     } else {
                         alert('接口出错，请稍后再试');
                     }
